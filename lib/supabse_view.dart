@@ -23,6 +23,7 @@ class _SupabaseViewState extends State<SupabaseView> {
     var response = await supabase.from('todo').select();
     if (response.isNotEmpty) {
       setState(() {
+        print(response.toString());
         dataList = response;
       });
     } else {
