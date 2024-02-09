@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_supabase_todo/supabase_crud.dart';
+import 'package:flutter_supabase_todo/supabase_realtime.dart';
 import 'package:flutter_supabase_todo/supabse_view.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -41,7 +43,9 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: SupabaseView(),
+      // home: SupabaseView(),
+      // home: SupabaseRealTime(),
+      home: SupabaseCRUD(),
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
