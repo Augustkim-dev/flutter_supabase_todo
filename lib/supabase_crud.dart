@@ -69,8 +69,20 @@ class SupabaseCRUD extends StatelessWidget {
                   ),
                 ),
                 actions: [
-                  ElevatedButton(onPressed: () {}, child: Text('CANCEL')),
-                  ElevatedButton(onPressed: () {}, child: Text('ADD')),
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text('CANCEL')),
+                  ElevatedButton(
+                      onPressed: () async {
+                        await supabse.from('todo').insert(
+                            {'todo': textController.text}).then((value) {
+                          textController.clear();
+                          Navigator.pop(context);
+                        });
+                      },
+                      child: Text('ADD')),
                 ],
               );
             },
