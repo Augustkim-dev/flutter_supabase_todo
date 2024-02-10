@@ -37,7 +37,14 @@ class SupabaseCRUD extends StatelessWidget {
                         ? Colors.green
                         : Colors.grey,
                   ),
-                  title: Text(todos[index]['todo']),
+                  // title: Text(todos[index]['todo']),
+                  title: Row(
+                    children: [
+                      Text(todos[index]['id'].toString()),
+                      Text('   |    '),
+                      Text(todos[index]['todo']),
+                    ],
+                  ),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
