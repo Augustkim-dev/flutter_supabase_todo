@@ -79,6 +79,8 @@ class SupabaseCRUD extends StatelessWidget {
                                                   })
                                                   .eq('id', todos[index]['id'])
                                                   .then((value) {
+                                                    debugPrint(
+                                                        'debugprint : $value');
                                                     textController.clear();
                                                     Navigator.pop(context);
                                                   });
