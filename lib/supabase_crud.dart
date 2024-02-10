@@ -14,7 +14,7 @@ class SupabaseCRUD extends StatelessWidget {
       appBar: AppBar(title: Text('CRUD')),
       body: Container(
         child: StreamBuilder(
-          stream: supabase.from('todo').stream(primaryKey: ['id']),
+          stream: supabase.from('todo').stream(primaryKey: ['id']).order('id'),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return Center(
@@ -44,7 +44,45 @@ class SupabaseCRUD extends StatelessWidget {
                       // 수정버튼
                       Flexible(
                           child: IconButton(
-                              onPressed: () {}, icon: Icon(Icons.edit))),
+                              onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (contet) {
+                                      return AlertDialog(
+                                        title: Text('Edit todo'),
+                                        content: TextField(
+                                          controller: textController,
+                                          decoration: InputDecoration(
+                                            hintText: todos[index]['todo'],
+                                          ),
+                                        ),
+                                        actions: [
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Icon(Icons.cancel),
+                                          ),
+                                          ElevatedButton(
+                                            onPressed: () async {
+                                              await supabase
+                                                  .from('todo')
+                                                  .update({
+                                                    'todo': textController.text
+                                                  })
+                                                  .eq('id', todos[index]['id'])
+                                                  .then((value) {
+                                                    textController.clear();
+                                                    Navigator.pop(context);
+                                                  });
+                                            },
+                                            child: Icon(Icons.edit),
+                                          ),
+                                        ],
+                                      );
+                                    });
+                              },
+                              icon: Icon(Icons.edit))),
                       // 삭제 버튼
                       Flexible(
                           child: IconButton(
