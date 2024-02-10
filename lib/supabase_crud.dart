@@ -4,7 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class SupabaseCRUD extends StatelessWidget {
   SupabaseCRUD({super.key});
 
-  final supabse = Supabase.instance.client;
+  final supabase = Supabase.instance.client;
 
   final TextEditingController textController = TextEditingController();
 
@@ -14,7 +14,7 @@ class SupabaseCRUD extends StatelessWidget {
       appBar: AppBar(title: Text('CRUD')),
       body: Container(
         child: StreamBuilder(
-          stream: supabse.from('todo').stream(primaryKey: ['id']),
+          stream: supabase.from('todo').stream(primaryKey: ['id']),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return Center(
@@ -41,12 +41,20 @@ class SupabaseCRUD extends StatelessWidget {
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      // 수정버튼
                       Flexible(
                           child: IconButton(
                               onPressed: () {}, icon: Icon(Icons.edit))),
+                      // 삭제 버튼
                       Flexible(
                           child: IconButton(
-                              onPressed: () {}, icon: Icon(Icons.delete))),
+                              onPressed: () async {
+                                await supabase
+                                    .from('todo')
+                                    .delete()
+                                    .eq('id', todos[index]['id']);
+                              },
+                              icon: Icon(Icons.delete))),
                     ],
                   ),
                 );
@@ -76,7 +84,7 @@ class SupabaseCRUD extends StatelessWidget {
                       child: Text('CANCEL')),
                   ElevatedButton(
                       onPressed: () async {
-                        await supabse.from('todo').insert(
+                        await supabase.from('todo').insert(
                             {'todo': textController.text}).then((value) {
                           textController.clear();
                           Navigator.pop(context);
